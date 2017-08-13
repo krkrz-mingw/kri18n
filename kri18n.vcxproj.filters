@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="src\i18n">
+      <UniqueIdentifier>{540a5438-19e7-45bd-80fd-94cd687b2676}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="i18n\Entry.cpp">
+      <Filter>src\i18n</Filter>
+    </ClCompile>
+    <ClCompile Include="i18n\I18nUtils.cpp">
+      <Filter>src\i18n</Filter>
+    </ClCompile>
+    <ClCompile Include="i18n\MO.cpp">
+      <Filter>src\i18n</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_stub.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="i18n\plural.c">
+      <Filter>src\i18n</Filter>
+    </ClCompile>
+    <ClCompile Include="i18n\plural-exp.c">
+      <Filter>src\i18n</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="i18n\Entry.h">
+      <Filter>src\i18n</Filter>
+    </ClInclude>
+    <ClInclude Include="i18n\I18nDefine.h">
+      <Filter>src\i18n</Filter>
+    </ClInclude>
+    <ClInclude Include="i18n\I18nUtils.h">
+      <Filter>src\i18n</Filter>
+    </ClInclude>
+    <ClInclude Include="i18n\MO.h">
+      <Filter>src\i18n</Filter>
+    </ClInclude>
+    <ClInclude Include="tp_stub.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="i18n\plural-exp.h">
+      <Filter>src\i18n</Filter>
+    </ClInclude>
+    <ClInclude Include="i18n\config.h">
+      <Filter>src\i18n</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
