@@ -4,7 +4,7 @@
 //
 
 #include "i18n/I18nUtils.h"
-#include <windows.h>
+#include <Windows.h>
 #include <codecvt>
 
 #include "tp_stub.h"
@@ -82,15 +82,21 @@ tjs_error TJS_INTF_METHOD tGettextFunction::FuncCall(
 	// 引数 : ディレクトリ
 	if (numparams < 1) return TJS_E_BADPARAMCOUNT;
 
-	if (!result)
+	if (!result || param[0]->Type() == tvtVoid)
 		return TJS_S_OK;
 
 	// 输入字符为空时可能会导致崩溃，提前进行处理
-	string text = "";
-	if (!ttstr(param[0]->GetString()).IsEmpty()) text = conv.to_bytes(param[0]->GetString());
+	const auto input_string = param[0]->GetString();
+	if (input_string == nullptr)
+	{
+		*result = "";
+		return TJS_S_OK;
+	}
+
+	const auto text = conv.to_bytes(input_string);
 
 	// 返回 utf-8 数据
-	std::string return_text = I18nUtils::getInstance()->gettext(text, numparams == 2 ? conv.to_bytes(param[1]->GetString()) : I18nUtils::DEFAULT_DOMAIN);
+	const auto return_text = I18nUtils::getInstance()->gettext(text, numparams == 2 ? conv.to_bytes(param[1]->GetString()) : I18nUtils::DEFAULT_DOMAIN);
 
 	*result = conv.from_bytes(return_text).c_str();
 
@@ -123,14 +129,22 @@ tjs_error TJS_INTF_METHOD tXGettextFunction::FuncCall(
 	if (!result)
 		return TJS_S_OK;
 
+	if (!result || param[0]->Type() == tvtVoid)
+		return TJS_S_OK;
+
 	// 输入字符为空时可能会导致崩溃，提前进行处理
-	string text = "";
-	string context = "";
-	if (!ttstr(param[0]->GetString()).IsEmpty()) text = conv.to_bytes(param[0]->GetString());
-	if (!ttstr(param[1]->GetString()).IsEmpty()) context = conv.to_bytes(param[1]->GetString());
+	const auto input_string = param[0]->GetString();
+	if (input_string == nullptr)
+	{
+		*result = "";
+		return TJS_S_OK;
+	}
+
+	const string text = conv.to_bytes(input_string);
+	const string context = conv.to_bytes(param[1]->GetString());
 
 	// 返回 utf-8 数据
-	std::string return_text = I18nUtils::getInstance()->xgettext(text, context, numparams == 3 ? conv.to_bytes(param[2]->GetString()) : I18nUtils::DEFAULT_DOMAIN);
+	const std::string return_text = I18nUtils::getInstance()->xgettext(text, context, numparams == 3 ? conv.to_bytes(param[2]->GetString()) : I18nUtils::DEFAULT_DOMAIN);
 
 	*result = conv.from_bytes(return_text).c_str();
 
@@ -166,14 +180,17 @@ tjs_error TJS_INTF_METHOD tNGettextFunction::FuncCall(
 	// 第三个参数应该为整数
 	if (param[2]->Type() != tvtInteger) return TJS_E_INVALIDPARAM;
 
+	if (!result || param[0]->Type() == tvtVoid)
+		return TJS_S_OK;
+
 	// 输入字符为空时可能会导致崩溃，提前进行处理
 	string singular = "";
 	string plural = "";
-	if (!ttstr(param[0]->GetString()).IsEmpty()) singular = conv.to_bytes(param[0]->GetString());
-	if (!ttstr(param[1]->GetString()).IsEmpty()) plural = conv.to_bytes(param[1]->GetString());
+	if (param[0]->GetString() != nullptr) singular = conv.to_bytes(param[0]->GetString());
+	if (param[1]->GetString() != nullptr) plural = conv.to_bytes(param[1]->GetString());
 
 	// 返回 utf-8 数据
-	std::string return_text = I18nUtils::getInstance()->ngettext(singular, plural, param[2]->AsInteger(), numparams == 4 ? conv.to_bytes(param[3]->GetString()) : I18nUtils::DEFAULT_DOMAIN);
+	const std::string return_text = I18nUtils::getInstance()->ngettext(singular, plural, tjs_int(param[2]->AsInteger()), numparams == 4 ? conv.to_bytes(param[3]->GetString()) : I18nUtils::DEFAULT_DOMAIN);
 
 	*result = conv.from_bytes(return_text).c_str();
 
@@ -215,11 +232,11 @@ tjs_error TJS_INTF_METHOD tNXGettextFunction::FuncCall(
 	// 输入字符为空时可能会导致崩溃，提前进行处理
 	string singular = "";
 	string plural = "";
-	if (!ttstr(param[0]->GetString()).IsEmpty()) singular = conv.to_bytes(param[0]->GetString());
-	if (!ttstr(param[1]->GetString()).IsEmpty()) plural = conv.to_bytes(param[1]->GetString());
+	if (param[0]->GetString() != nullptr) singular = conv.to_bytes(param[0]->GetString());
+	if (param[1]->GetString() != nullptr) plural = conv.to_bytes(param[1]->GetString());
 
 	// 返回 utf-8 数据
-	std::string return_text = I18nUtils::getInstance()->nxgettext(singular, plural, param[2]->AsInteger(), conv.to_bytes(param[3]->GetString()), numparams == 5 ? conv.to_bytes(param[4]->GetString()) : I18nUtils::DEFAULT_DOMAIN);
+	const std::string return_text = I18nUtils::getInstance()->nxgettext(singular, plural, tjs_int(param[2]->AsInteger()), conv.to_bytes(param[3]->GetString()), numparams == 5 ? conv.to_bytes(param[4]->GetString()) : I18nUtils::DEFAULT_DOMAIN);
 
 	*result = conv.from_bytes(return_text).c_str();
 

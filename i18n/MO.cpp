@@ -74,7 +74,7 @@ bool MO::loadMoFile(std::string filePath)
     
     if (fin && fin.is_open()) {
         fin.seekg(0, fin.end);
-        ssize_t size = fin.tellg();
+        ssize_t size = static_cast<ssize_t>(fin.tellg());
         fin.seekg(0, fin.beg);
         
         bytesLen = sizeof(unsigned char) * size;
