@@ -6,6 +6,7 @@
 #include "i18n/I18nUtils.h"
 #include <Windows.h>
 #include <codecvt>
+#include <locale>
 
 #include "tp_stub.h"
 

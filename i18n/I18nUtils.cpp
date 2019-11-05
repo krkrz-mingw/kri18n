@@ -7,7 +7,7 @@
 #include <cstdlib>
 #include <cstdarg>
 
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(_WIN32)
 #include <regex.h>
 #else
 #include <regex>
@@ -169,7 +169,7 @@ string I18nUtils::translateNooped(NoopEntry& entry, int number, string domain/*=
 }
 
 #if (IS_ENABLE_FORMAT_MATCH_ARGS_INDEX == FORMAT_MATCH_ENABLE)
-#ifdef __GNUC__
+#if defined(__GNUC__) && !defined(_WIN32)
 std::string I18nUtils::formatMatch(const char* format, ...)
 {
     va_list args;
