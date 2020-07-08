@@ -4,15 +4,18 @@
 //
 
 #include "i18n/I18nUtils.h"
+#if 0
 #include <Windows.h>
+#endif
 #include <codecvt>
 #include <locale>
 
-#include "tp_stub.h"
+#include "ncbind/ncbind.hpp"
+#include "istream_compat.h"
 
 USING_NS_I18N;
 
-std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
+std::wstring_convert<std::codecvt_utf8<tjs_char>, tjs_char> conv;
 
 //---------------------------------------------------------------------------
 // テスト関数 もういっこ
@@ -299,7 +302,191 @@ tjs_error TJS_INTF_METHOD tRemoveAllMOFunction::FuncCall(
 }
 //---------------------------------------------------------------------------
 
+static void kri18n_init()
+{
+	// AverageFunction の作成と登録
+	tTJSVariant val;
 
+	// TJS のグローバルオブジェクトを取得する
+	iTJSDispatch2 * global = TVPGetScriptDispatch();
+
+
+
+	//-----------------------------------------------------------------------
+	// 1 まずオブジェクトを作成
+	LoadMoFunction = new tLoadMoFunction();
+
+	// 2 AverageFunction を tTJSVariant 型に変換
+	val = tTJSVariant(LoadMoFunction);
+
+	// 3 すでに val が AverageFunction を保持しているので、AverageFunction は
+	//   Release する
+	LoadMoFunction->Release();
+
+
+	// 4 global の PropSet メソッドを用い、オブジェクトを登録する
+	global->PropSet(
+		TJS_MEMBERENSURE, // メンバがなかった場合には作成するようにするフラグ
+		TJS_W("loadMoFile"), // メンバ名 ( かならず TJS_W( ) で囲む )
+		NULL, // ヒント ( 本来はメンバ名のハッシュ値だが、NULL でもよい )
+		&val, // 登録する値
+		global // コンテキスト ( global でよい )
+		);
+	//-----------------------------------------------------------------------
+
+
+	//-----------------------------------------------------------------------
+	// 1 まずオブジェクトを作成
+	RemoveMOFunction = new tRemoveMOFunction();
+
+	// 2 AverageFunction を tTJSVariant 型に変換
+	val = tTJSVariant(RemoveMOFunction);
+
+	// 3 すでに val が AverageFunction を保持しているので、AverageFunction は
+	//   Release する
+	RemoveMOFunction->Release();
+
+
+	// 4 global の PropSet メソッドを用い、オブジェクトを登録する
+	global->PropSet(
+		TJS_MEMBERENSURE, // メンバがなかった場合には作成するようにするフラグ
+		TJS_W("removeMO"), // メンバ名 ( かならず TJS_W( ) で囲む )
+		NULL, // ヒント ( 本来はメンバ名のハッシュ値だが、NULL でもよい )
+		&val, // 登録する値
+		global // コンテキスト ( global でよい )
+		);
+	//-----------------------------------------------------------------------
+
+
+	//-----------------------------------------------------------------------
+	// 1 まずオブジェクトを作成
+	RemoveAllMOFunction = new tRemoveAllMOFunction();
+
+	// 2 AverageFunction を tTJSVariant 型に変換
+	val = tTJSVariant(RemoveAllMOFunction);
+
+	// 3 すでに val が AverageFunction を保持しているので、AverageFunction は
+	//   Release する
+	RemoveAllMOFunction->Release();
+
+
+	// 4 global の PropSet メソッドを用い、オブジェクトを登録する
+	global->PropSet(
+		TJS_MEMBERENSURE, // メンバがなかった場合には作成するようにするフラグ
+		TJS_W("removeAllMO"), // メンバ名 ( かならず TJS_W( ) で囲む )
+		NULL, // ヒント ( 本来はメンバ名のハッシュ値だが、NULL でもよい )
+		&val, // 登録する値
+		global // コンテキスト ( global でよい )
+		);
+	//-----------------------------------------------------------------------
+
+
+	//-----------------------------------------------------------------------
+	// 1 まずオブジェクトを作成
+	GettextFunction = new tGettextFunction();
+
+	// 2 AverageFunction を tTJSVariant 型に変換
+	val = tTJSVariant(GettextFunction);
+
+	// 3 すでに val が AverageFunction を保持しているので、AverageFunction は
+	//   Release する
+	GettextFunction->Release();
+
+
+	// 4 global の PropSet メソッドを用い、オブジェクトを登録する
+	global->PropSet(
+		TJS_MEMBERENSURE, // メンバがなかった場合には作成するようにするフラグ
+		TJS_W("__"), // メンバ名 ( かならず TJS_W( ) で囲む )
+		NULL, // ヒント ( 本来はメンバ名のハッシュ値だが、NULL でもよい )
+		&val, // 登録する値
+		global // コンテキスト ( global でよい )
+		);
+	//-----------------------------------------------------------------------
+
+
+	//-----------------------------------------------------------------------
+	// 1 まずオブジェクトを作成
+	XGettextFunction = new tXGettextFunction();
+
+	// 2 AverageFunction を tTJSVariant 型に変換
+	val = tTJSVariant(XGettextFunction);
+
+	// 3 すでに val が AverageFunction を保持しているので、AverageFunction は
+	//   Release する
+	XGettextFunction->Release();
+
+
+	// 4 global の PropSet メソッドを用い、オブジェクトを登録する
+	global->PropSet(
+		TJS_MEMBERENSURE, // メンバがなかった場合には作成するようにするフラグ
+		TJS_W("_x"), // メンバ名 ( かならず TJS_W( ) で囲む )
+		NULL, // ヒント ( 本来はメンバ名のハッシュ値だが、NULL でもよい )
+		&val, // 登録する値
+		global // コンテキスト ( global でよい )
+		);
+	//-----------------------------------------------------------------------
+
+
+	//-----------------------------------------------------------------------
+	// 1 まずオブジェクトを作成
+	NGettextFunction = new tNGettextFunction();
+
+	// 2 AverageFunction を tTJSVariant 型に変換
+	val = tTJSVariant(NGettextFunction);
+
+	// 3 すでに val が AverageFunction を保持しているので、AverageFunction は
+	//   Release する
+	NGettextFunction->Release();
+
+
+	// 4 global の PropSet メソッドを用い、オブジェクトを登録する
+	global->PropSet(
+		TJS_MEMBERENSURE, // メンバがなかった場合には作成するようにするフラグ
+		TJS_W("_n"), // メンバ名 ( かならず TJS_W( ) で囲む )
+		NULL, // ヒント ( 本来はメンバ名のハッシュ値だが、NULL でもよい )
+		&val, // 登録する値
+		global // コンテキスト ( global でよい )
+		);
+	//-----------------------------------------------------------------------
+
+	//-----------------------------------------------------------------------
+	// 1 まずオブジェクトを作成
+	NXGettextFunction = new tNXGettextFunction();
+
+	// 2 AverageFunction を tTJSVariant 型に変換
+	val = tTJSVariant(NXGettextFunction);
+
+	// 3 すでに val が AverageFunction を保持しているので、AverageFunction は
+	//   Release する
+	NXGettextFunction->Release();
+
+
+	// 4 global の PropSet メソッドを用い、オブジェクトを登録する
+	global->PropSet(
+		TJS_MEMBERENSURE, // メンバがなかった場合には作成するようにするフラグ
+		TJS_W("_nx"), // メンバ名 ( かならず TJS_W( ) で囲む )
+		NULL, // ヒント ( 本来はメンバ名のハッシュ値だが、NULL でもよい )
+		&val, // 登録する値
+		global // コンテキスト ( global でよい )
+		);
+	//-----------------------------------------------------------------------
+
+
+	// - global を Release する
+	global->Release();
+
+	// もし、登録する関数が複数ある場合は 1 ～ 4 を繰り返す
+
+
+	// val をクリアする。
+	// これは必ず行う。そうしないと val が保持しているオブジェクト
+	// が Release されず、次に使う TVPPluginGlobalRefCount が正確にならない。
+	val.Clear();
+}
+
+NCB_PRE_REGIST_CALLBACK(kri18n_init);
+
+#if 0
 //---------------------------------------------------------------------------
 int WINAPI DllEntryPoint(HINSTANCE hinst, unsigned long reason,
 	void* lpReserved)
@@ -583,3 +770,4 @@ extern "C" __declspec(dllexport) HRESULT _stdcall V2Unlink()
 
 	return S_OK;
 }
+#endif

@@ -129,8 +129,10 @@ extern void EXTRACT_PLURAL_EXPRESSION (const char *nullentry,
      internal_function;
 
 #if !defined (_LIBC) && !defined (IN_LIBINTL) && !defined (IN_LIBGLOCALE)
+#if 0
 extern unsigned long int plural_eval (const struct expression *pexp,
 				      unsigned long int n);
+#endif
 #endif
 
 
