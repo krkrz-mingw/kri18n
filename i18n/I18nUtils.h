@@ -9,6 +9,7 @@
 #include "I18nDefine.h"
 #include "MO.h"
 #include <string>
+#include <cstring>
 #include <vector>
 #include <functional>
 #include <unordered_map>
