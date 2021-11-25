@@ -4,7 +4,7 @@
 //
 
 #include "i18n/I18nUtils.h"
-#include <Windows.h>
+#include <windows.h>
 #include <codecvt>
 #include <locale>
 
