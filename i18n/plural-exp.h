@@ -105,6 +105,7 @@ struct parse_args
 # define EXTRACT_PLURAL_EXPRESSION extract_plural_expression
 #endif
 
+#if 0
 #if (defined __GNUC__ && !(defined __APPLE_CC_ && __APPLE_CC__ > 1) \
      && !defined __cplusplus)                                       \
     || (defined __STDC_VERSION__ && __STDC_VERSION__ >= 199901L)    \
@@ -114,6 +115,8 @@ struct parse_args
 #else
 # define HAVE_STRUCT_INITIALIZER 0
 #endif
+#endif
+#define HAVE_STRUCT_INITIALIZER 1
 
 extern void FREE_EXPRESSION (struct expression *exp)
      internal_function;
@@ -128,9 +131,11 @@ extern void EXTRACT_PLURAL_EXPRESSION (const char *nullentry,
 				       unsigned long int *npluralsp)
      internal_function;
 
+#if 0
 #if !defined (_LIBC) && !defined (IN_LIBINTL) && !defined (IN_LIBGLOCALE)
 extern unsigned long int plural_eval (const struct expression *pexp,
 				      unsigned long int n);
+#endif
 #endif
 
 
