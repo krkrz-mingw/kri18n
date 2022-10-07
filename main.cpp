@@ -1,4 +1,4 @@
-﻿//
+//
 //  Copyright (c) 2017 Hintay <hintay@me.com>.
 //  All rights reserved.
 //
